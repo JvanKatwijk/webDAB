@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WebDAB</title>
+<link rel="stylesheet" href="radiostyle.css">
+</head>
+<body>
+<header>
+	<h2> Experimental Web DAB Interface</h2>
+</header>
+<table>
+	<tr>
+	<td><form name="myList" action="/set_channel"  method="post"> 
+              <select id="Channels" name="Channels">
+	      </select> 
+	      <input type="submit" name="submit" value="select channel" /> 
+	      </form> 
+	</td>
+	<td align='center' width='200'> <span id="selectedService"></span> 
+	</td>
+	<td align='right' width='130'><span id="datetime"></span>
+	</td>
+	</tr>
+</table>
+<section>
+<nav id="serviceSection">
+</nav>
+<article>
+	<h1> selected service </h1>
+	<span id="servicedata"></span>
+</article>
+<footer>
+<span id="dynamicLabel"></span>
+</footer>
+<script src="channels.js"></script>
+<script src="myscript.js"></script>
+<script>
+//	initalizations:
+	display_ct ();
+        setInterval (display_ct, 1000);
+	setupChannels	();
+	var serviceList = ["NPO 1", "NPO 2", "NPO 3", "NPO 4", "NPO 5"];
+	setupServices (serviceList);
+	setupServiceData ("service data");
+	setupDynamicLabel ("here dynamicLabel");
+</script>
+</body>
+</html> 
+

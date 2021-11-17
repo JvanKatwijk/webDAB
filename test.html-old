@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	   <title>WebDAB</title>
+<style>
+#leftside {
+	background-color: linen
+}
+#leftside {
+        float: left;
+        width: 50%;
+}
+#rightside {
+        float: right;
+        width: 50%;
+}
+</style>
+	</head>
+	<!-- link href="/StyleSheet.css" rel="stylesheet" -->
+
+	<body bgcolor="#aaaaaa">>
+	   <!-- script type="text/javascript" src="/myscript.js"></script> -->
+	   <header>
+	      <h2> Experimental Web DAB Interface</h2>
+	   </header>
+	   <div id="container">
+	      <div id="leftside">
+	         <span id="datetime"> date time</span>
+	         <h3>
+	           <span id="ensembleName"> $E </span>
+	         </h3>
+	         <h3>
+	            <span id="selectedService"> $P</span>
+	         </h3>
+	         <span id="serviceSection"> serviceList</span>
+	      </div>
+	      <div id="right side">
+	         <h2>
+	            Controls
+	         </h2>
+	         <table><tr>
+	            <td align='left; widht= '100'>
+	               <form name="myList" action="/set_channel" method="post">
+	                  <select id="Channels" name="Channels"></select>
+	                  <input type="submit" name="submit" value="select channel" >
+	               </form>
+	            </td>
+	            <td width=100>
+	               <span id="selectedChannel"> $C <span>
+	         </table>
+	         <p>
+	         <form name="ifgain" action="/set_ifgain" method="post">
+	            <label for="ifgain"> ifgain (10 .. 100): </label>
+	            <input type="number" id="ifgain" name="ifgain" min="10" max="100" value=$G required>
+	            <input type="submit" value="Submit"/>
+	         </form>
+	         </p><p>
+	         <form name="audiogain" action="/set_audiogain" method="post">
+	            <label for="audiogain"> audiogain (10 .. 100): </label>
+	            <input type="number" id="audiogain" name="audiogain" min="10" max="100" value=$V required>
+	            <input type="submit" value="Submit"/>
+	         </form>
+	         </p><p>
+	         <form name="autogain" action="/set_autogain" method="post">
+	            <label for="autogain"> autogain</label>
+	            <input id="autogain" name="autogain" type="checkbox" value=$A>
+	            <input type="submit" value="Submit">
+	         </form>
+	         </p>
+	      </div>
+	   </div>
+	   <footer>
+	      <span align="center" id="dynamicLabel"> $D</span> 
+	   </footer>
+	   <form action="/update" method="post" id="form1" name="form1">
+	   <script>
+
+function getResults () {
+	var radios = document. getElementsByName ("radio");
+	for (var i = 0; i < radios. length; i ++) {
+	   if (radios [i]. checked) {
+	      var s = "Service " + radios [i]. value;
+	      document. getElementById ("selectedService"). innerHTML = s;
+	      break;
+	   }
+	}
+}
+
+var teller = 0;
+
+function display_ct () {
+	var dt = new Date ();
+	document.getElementById ("datetime"). innerHTML = dt. toLocaleTimeString ();
+	teller ++;
+	if (teller > 15) {
+	   teller = 0;
+	   document. form1. submit ();
+	}
+}
+
+var choices = { channel_5A  : "5A",
+	        channel_5B  : "5B",
+	        channel_5C  : "5C",
+	        channel_5D  : "5D",
+	        channel_6A  : "6A",
+	        channel_6B  : "6B",
+	        channel_6C  : "6C",
+	        channel_6D  : "6D",
+	        channel_7A  : "7A",
+	        channel_7B  : "7B",
+	        channel_7C  : "7C",
+	        channel_7D  : "7D",
+	        channel_8A  : "8A",
+	        channel_8B  : "8B",
+	        channel_8C  : "8C",
+	        channel_8D  : "8D",
+	        channel_9A  : "9A",
+	        channel_9B  : "9B",
+	        channel_9C  : "9C",
+	        channel_9D  : "9D",
+	        channel_10A : "10A",
+	        channel_10B : "10B",
+	        channel_10C : "10C",
+	        channel_10D : "10D",
+	        channel_11A : "11A",
+	        channel_11B : "11B",
+	        channel_11C : "11C",
+	        channel_11D : "11D",
+	        channel_12A : "12A",
+	        channel_12B : "12B",
+	        channel_12C : "12C",
+	        channel_12D : "12D",
+	        channel_13A : "13A",
+	        channel_13B : "13B",
+	        channel_13C : "13C",
+	        channel_13D : "13D",
+	        channel_13E : "13E",
+	        channel_13F : "13F"
+};
+
+function setupChannels () {
+var selector	= document. getElementById ("Channels");
+	for (index in choices) {
+	   selector. options [selector. options. length] =
+//	                                 new Option (choices [index], index);
+	                                 new Option (index, choices [index]);
+	}
+}
+
+function setupServices (serviceList) {
+	var form	= document. createElement ("form"); 
+	var br		= document. createElement ("br");
+	form. setAttribute ("method", "post"); 
+//	form. setAttribute ("method", "GET"); 
+	form. setAttribute ("action", "/select-service"); // / ervoor
+	form. setAttribute ("onclick", "getResults ()");
+
+	for (var i = 0; i < serviceList. length; i ++) {
+	   var r	= document. createElement ('input');
+	   r . setAttribute ("type", "radio");
+	   r. setAttribute ("name", 'radio');
+	   r. setAttribute ("value", serviceList [i]);
+	   if (i == 0)
+	      r. setAttribute ("checked", "checked");
+	   var label	= document. createElement ("label");
+	   label. appendChild (document. createTextNode (serviceList [i]));
+	   form. appendChild (r);  
+	   form. appendChild (label);
+	   form. appendChild(br.cloneNode());  
+	}
+
+	var s = document. createElement ("input"); 
+	s. setAttribute ("type", "submit"); 
+	s. setAttribute ("value", "select Service"); 
+// Append the submit button to the form 
+	form. appendChild (s);  
+	document. getElementById ("serviceSection"). appendChild (form);
+}
+
+
+	      display_ct ();
+	      setInterval (display_ct, 1000);
+	      setupChannels ();
+	      setupServices ($S);
+	   </script>
+	</body>
+</html>

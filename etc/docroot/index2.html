@@ -1,0 +1,23 @@
+<!DOCTYPE HTML> 
+<html>  
+   <head> 
+   </head> 
+  
+   <body> 
+      <div id = "sse"> 
+      </div> 
+   
+      <div id = "ticker" name = "ticker"> 
+         [TIME] 
+      </div> 
+
+      <script type = "text/javascript"> 
+         var source = new EventSource ( "/cgi-bin/ticker.cgi" );
+         source. onmessage  = function (event) { 
+            // Alert time sent by the server 
+            document.getElementById ("ticker").innerHTML = event.data; 
+         } 
+      </script> 
+   </body> 
+</html>
+

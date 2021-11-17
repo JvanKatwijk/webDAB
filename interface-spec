@@ -1,0 +1,46 @@
+
+Uitgangspunt: de server draait ook gewoon als de browser
+niet verbonden is.
+
+De browset tekst die (dus) op de browser de GUI genereert
+is in tekst - of meta - vorm altijd beschikbaar
+
+Het handigste is als we er een soort meta versie van maken met
+een paar update procedures
+
+	er bestaat dan aan tekst, verpakt in een
+class, met access functies
+	text	-> update_serviceList	(const QStringList);
+	text	-> update_ensembleName	(const QString);
+	text	-> update_serviceName	(const QString &); ?
+	text	-> update_dynamicLabel	(const QString &);
+	text	-> update_deviceGain	(int);
+	text	-> update_deviceAGC	(bool);
+	text	-> update_audioGain	(int);
+	text	-> emit
+
+
+The GUI contains
+a.	channel list -- set up by the GUI itself
+b.	servicelist	-- pushed by the server
+c.	ensemblename	-- pushed by the server
+d.	dynamicLabel	-- pushed by the server
+e.	name of selected service -- is known but added by the server to the update
+
+The	 GUI emits signals
+a.	channel select
+	On selecting a channel, the GUI cleans the service list,
+	the ensemble name the name of the selected service and the
+	text of the dynamic label
+b.	service select
+	On selecting a service, the GUI overwrites the name of
+	the selected service as displayed and cleans the dynamic label text
+c.	device gain, for simplicity reasons set in the range 0 .. 100
+d.	device agc
+e.	audio gain
+f.	update signal. If the GUI is connected it will ask for a regular
+	update basically for updating the dynamic label that needs a push
+
+
+
+
