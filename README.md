@@ -20,6 +20,8 @@ The web interface is simple and contains 5 selectors
 
   * a selector for controlling the audio volume
 
+
+
 --------------------------------------------------------------------------
 How to install the dab-httpserver
 --------------------------------------------------------------------------
@@ -27,6 +29,8 @@ How to install the dab-httpserver
 The software uses the QtWeb server from Stefan Frings and needs Qt
 to be installed
 A radio.pro file specifies the configuration.
+
+By default the server listens on port 8080
 
 -----------------------------------------------------------------------
 Supported devices
