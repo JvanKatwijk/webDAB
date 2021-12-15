@@ -46,39 +46,39 @@ QByteArray path = request. getPath();
 
 //	fprintf (stderr, "Request %s\n", path. data ());
 	if (path. startsWith ("/set_channel")) {
-	   selectChannel (
-	                  QString (request.
-	                           getParameter ("Channels"). data ()),
-	                                  response);
+	   QString par = QString (request. getParameter ("Channels"). data ());
+	   if (par. isEmpty ())
+	      return;
+	   selectChannel (par, response);
 	}
 	else
 	if (path. startsWith ("/select-service")) {
-	   selectService (
-	                  QString (request.
-	                           getParameter ("radio"). data ()),
-	                                  response);
+	   QString par = QString (request. getParameter ("radio"). data ());
+	   if (par. isEmpty ())
+	      return;
+	   selectService (par, response);
 	}
 	else
 	if (path. startsWith ("/set_ifgain")) {
 	   QString par = QString (request. getParameter ("ifgain"));
+	   if (par. isEmpty ())
+	      return;
 //	   fprintf (stderr, "parameter for set_ifgain %s\n",
 //	                          par. toLatin1 (). data ());
 	   update_deviceGain (par. toInt (), response);
 	}
 	else
 	if (path. startsWith ("/set_autogain")) {
-	      QString par = QString (request. getParameter ("autogain"));
-//	      fprintf (stderr, "parameter for set_autogain %s\n",
-//	               par. toLatin1 (). data ());
-           update_deviceAGC (
-                           request. getParameter ("autogain"),
-                                          response);
+	   QString par = QString (request. getParameter ("autogain"));
+	   if (par. isEmpty ())
+	      return;
+           update_deviceAGC (par, response);
         }
         else
 	if (path. startsWith ("/set_audiogain")) {
 	   QString par = QString (request. getParameter ("audiogain"));
-//	   fprintf (stderr, "parameter for set_audiogain %s\n",
-//	                             par. toLatin1 (). data ());
+	   if (par. isEmpty ())
+	      return;
            update_soundGain (par. toInt (), response);
         }
         else
@@ -97,6 +97,9 @@ int	getServiceNr (QStringList services, const QString &s) {
 void	radioInterface::selectService		(const QString &s,
 	                                         HttpResponse& response) {
 audiodata ad;
+
+	if (s. isEmpty ())
+	   return;
 int serviceNr	= getServiceNr (Services, s);
 	theText	-> update_dynamicLabel ("you selected service " + s);
 	theText	-> update_selectedService (s, serviceNr);

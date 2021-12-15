@@ -30,7 +30,9 @@ The software uses the QtWeb server from Stefan Frings and needs Qt
 to be installed
 A radio.pro file specifies the configuration.
 
-By default the server listens on port 8080
+I run the server on my RPI3,  which works fine.
+By default the server listens on port 808o, but of course can be changed
+in the implementation.
 
 -----------------------------------------------------------------------
 Supported devices
